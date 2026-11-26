@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web3 Phishing Lab</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+            color: #202534;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+        }
+
+        pre {
+            background: #eef1f5;
+            padding: 15px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Web3 Phishing Lab</h1>
+    <p>學號：15373008</p>
+
+    <div class="warning">
+        資訊安全課程模擬實驗。
+        本頁不連接錢包、不發送鏈上交易，
+        所有餘額及授權均為模擬資料。
+    </div>
+
+    <h2>帳戶狀態</h2>
+
+    <p>Lab A：<span id="balanceA">0</span> 枚</p>
+    <p>Lab B：<span id="balanceB">1000</span> 枚</p>
+    <p>授權額度：<span id="allowance">0</span> 枚</p>
+
+    <h2>授權風險模擬</h2>
+
+    <button onclick="approve()">
+        模擬授權 1000 枚代幣
+    </button>
+
+    <button onclick="transfer()">
+        模擬依授權額度轉移代幣
+    </button>
+
+    <button onclick="revoke()">
+        模擬撤銷授權
+    </button>
+
+    <button onclick="reset()">
+        重置實驗
+    </button>
+
+    <h2>實驗日誌</h2>
+
+    <pre id="log">實驗初始化完成。</pre>
+
+</div>
+
+<script>
+    let balanceA = 0;
+    let balanceB = 1000;
+    let allowance = 0;
+
+    function render(message) {
+        document.getElementById("balanceA").textContent = balanceA;
+        document.getElementById("balanceB").textContent = balanceB;
+        document.getElementById("allowance").textContent = allowance;
+        document.getElementById("log").textContent = message;
+    }
+
+    function approve() {
+        allowance = 1000;
+        render("approve：模擬授權額度設定為 1000。");
+    }
+
+    function transfer() {
+        if (allowance < 1000 || balanceB < 1000) {
+            render("模擬交易失敗：授權額度或餘額不足。");
+            return;
+        }
+
+        balanceB -= 1000;
+        balanceA += 1000;
+        allowance -= 1000;
+
+        render("transferFrom：模擬轉移 1000 枚代幣成功。");
+    }
+
+    function revoke() {
+        allowance = 0;
+        render("revoke：模擬授權已撤銷。");
+    }
+
+    function reset() {
+        balanceA = 0;
+        balanceB = 1000;
+        allowance = 0;
+
+        render("實驗已重置。");
+    }
+</script>
+
+</body>
+</html>
